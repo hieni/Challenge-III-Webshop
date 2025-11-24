@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15.15
+    container_name: webshop_postgres
+    environment:
+      POSTGRES_USER: webshop_user
+      POSTGRES_PASSWORD: webshop_password
+      POSTGRES_DB: webshop_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./01_create_tables.sql:/docker-entrypoint-initdb.d/01_create_tables.sql
+      - ./02_insert_sample_data.sql:/docker-entrypoint-initdb.d/02_insert_sample_data.sql
+    networks:
+      - webshop_network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  webshop_network:
+    driver: bridge

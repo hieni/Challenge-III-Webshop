@@ -41,11 +41,16 @@ COPY --chown=appuser:appuser . .
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1 
 
-# Switch to non-root user
-USER appuser
-
 # Expose the application port
 EXPOSE 8000 
 
-# Start the application using Gunicorn
+# Copy entrypoint script
+COPY init.sh /app/init.sh
+RUN chmod +x /app/init.sh
+USER appuser
+
+# Set as entrypoint
+ENTRYPOINT ["/app/init.sh"]
+
+# Default CMD (wird von init.sh via exec "$@" gestartet)
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "3", "my_docker_django_app.wsgi:application"]

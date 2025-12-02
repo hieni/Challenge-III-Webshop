@@ -19,6 +19,7 @@ class Product(models.Model):
     price = models.FloatField()
     stock = models.IntegerField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to="products/", null=True, blank=True)
 
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)

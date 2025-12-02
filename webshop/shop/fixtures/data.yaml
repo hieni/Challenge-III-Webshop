@@ -1,0 +1,164 @@
+- model: shop.Customer
+  pk: 1
+  fields:
+    first_name: "Tim"
+    last_name: "Lietzowmann"
+    email: "tim@example.com"
+    password: "pbkdf2_sha256$fakehash"
+    strasse: "Hauptstraße 1"
+    ort: "Berlin"
+    plz: "10115"
+
+- model: shop.Customer
+  pk: 2
+  fields:
+    first_name: "Lykka"
+    last_name: "Brüggenmann"
+    email: "lykka@example.com"
+    password: "pbkdf2_sha256$fakehash2"
+    strasse: "Marktweg 22"
+    ort: "Köln"
+    plz: "50667"
+
+
+# Kategorien
+- model: shop.Category
+  pk: 1
+  fields:
+    category_name: "T-Shirts"
+
+- model: shop.Category
+  pk: 2
+  fields:
+    category_name: "Hoodies"
+
+- model: shop.Category
+  pk: 3
+  fields:
+    category_name: "Caps"
+
+- model: shop.Category
+  pk: 4
+  fields:
+    category_name: "Schlüsselanhänger"
+
+# Produkte
+- model: shop.Product
+  pk: 1
+  fields:
+    name: "Logo T-Shirt Schwarz"
+    description: "Bequemes schwarzes T-Shirt mit Frontlogo."
+    price: 24.99
+    stock: 120
+    category: 1
+
+- model: shop.Product
+  pk: 2
+  fields:
+    name: "ITECH x BHH T-Shirt Weiß"
+    description: "Klassisches weißes T-Shirt mit schlichtem ITECH x BHH Logo."
+    price: 24.99
+    stock: 95
+    category: 1
+    image: "products/ITECHxBHH.png"
+
+- model: shop.Product
+  pk: 3
+  fields:
+    name: "Premium Hoodie Schwarz"
+    description: "Hochwertiger Hoodie in schwarz mit Sticklogo."
+    price: 49.99
+    stock: 60
+    category: 2
+
+- model: shop.Product
+  pk: 4
+  fields:
+    name: "Baseball Cap Navy"
+    description: "Stylische Cap in Navy-Blau mit gesticktem Logo."
+    price: 19.99
+    stock: 80
+    category: 3
+
+- model: shop.Product
+  pk: 5
+  fields:
+    name: "Verschlaffke T-Shirt Weiß"
+    description: "Klassisches weißes T-Shirt mit Verschlaffke."
+    price: 24.99
+    stock: 95
+    category: 1
+    image: "products/Verschlaffke.png"
+
+# Bestellungen
+- model: shop.Order
+  pk: 1
+  fields:
+    customer: 1
+    order_date: "2025-01-15"
+    status: "versendet"
+    total_amount: 74.98
+
+- model: shop.Order
+  pk: 2
+  fields:
+    customer: 2
+    order_date: "2025-01-17"
+    status: "in Bearbeitung"
+    total_amount: 49.99
+
+
+# Order Items
+- model: shop.OrderItem
+  pk: 1
+  fields:
+    order: 1
+    product: 1
+    quantity: 1
+    price_per_unit: 24.99
+
+- model: shop.OrderItem
+  pk: 2
+  fields:
+    order: 1
+    product: 3
+    quantity: 1
+    price_per_unit: 49.99
+
+- model: shop.OrderItem
+  pk: 3
+  fields:
+    order: 2
+    product: 3
+    quantity: 1
+    price_per_unit: 49.99
+
+
+# Warenkörbe
+- model: shop.Cart
+  pk: 1
+  fields:
+    customer: 1
+    last_updated: "2025-01-20T12:00:00Z"
+
+- model: shop.Cart
+  pk: 2
+  fields:
+    customer: 2
+    last_updated: "2025-01-20T12:30:00Z"
+
+
+# Cart Items
+- model: shop.CartItem
+  pk: 1
+  fields:
+    cart: 1
+    product: 4
+    quantity: 2
+
+- model: shop.CartItem
+  pk: 2
+  fields:
+    cart: 2
+    product: 2
+    quantity: 1

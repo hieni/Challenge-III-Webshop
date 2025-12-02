@@ -1,9 +1,9 @@
 - model: shop.Customer
   pk: 1
   fields:
-    first_name: "Max"
-    last_name: "Mustermann"
-    email: "max@example.com"
+    first_name: "Tim"
+    last_name: "Lietzowmann"
+    email: "tim@example.com"
     password: "pbkdf2_sha256$fakehash"
     strasse: "Hauptstraße 1"
     ort: "Berlin"
@@ -12,9 +12,9 @@
 - model: shop.Customer
   pk: 2
   fields:
-    first_name: "Lisa"
-    last_name: "Keller"
-    email: "lisa@example.com"
+    first_name: "Lykka"
+    last_name: "Brüggenmann"
+    email: "lykka@example.com"
     password: "pbkdf2_sha256$fakehash2"
     strasse: "Marktweg 22"
     ort: "Köln"
@@ -37,6 +37,10 @@
   fields:
     category_name: "Caps"
 
+- model: shop.Category
+  pk: 4
+  fields:
+    category_name: "Schlüsselanhänger"
 
 # Produkte
 - model: shop.Product
@@ -51,11 +55,12 @@
 - model: shop.Product
   pk: 2
   fields:
-    name: "Logo T-Shirt Weiß"
-    description: "Klassisches weißes T-Shirt mit schlichtem Logo."
+    name: "ITECH x BHH T-Shirt Weiß"
+    description: "Klassisches weißes T-Shirt mit schlichtem ITECH x BHH Logo."
     price: 24.99
     stock: 95
     category: 1
+    image: "products/ITECHxBHH.png"
 
 - model: shop.Product
   pk: 3
@@ -75,6 +80,15 @@
     stock: 80
     category: 3
 
+- model: shop.Product
+  pk: 5
+  fields:
+    name: "Verschlaffke T-Shirt Weiß"
+    description: "Klassisches weißes T-Shirt mit Verschlaffke."
+    price: 24.99
+    stock: 95
+    category: 1
+    image: "products/Verschlaffke.png"
 
 # Bestellungen
 - model: shop.Order

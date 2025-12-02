@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Produkte{% endblock %}
+
+{% block content %}
+<h1 class="my-4">Unsere Produkte</h1>
+
+<div class="row">
+  {% for product in products %}
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+
+        {% if product.image %}
+          <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+        {% else %}
+          <img src="https://via.placeholder.com/400x300?text=Kein+Bild" class="card-img-top">
+        {% endif %}
+
+        <div class="card-body">
+          <h5 class="card-title">{{ product.name }}</h5>
+          <p class="card-text">{{ product.description|truncatechars:80 }}</p>
+          <p class="font-weight-bold">{{ product.price }} €</p>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-primary btn-block">In den Warenkorb</button>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

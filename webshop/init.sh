@@ -4,10 +4,11 @@ echo "Starting Django application..."
 
 # Wait for database to be ready
 echo "Waiting for database..."
-while ! nc -z db 5432; do
-  sleep 0.1
+while ! (echo > /dev/tcp/db/5432) >/dev/null 2>&1; do
+    sleep 0.1
 done
 echo "Database is ready!"
+
 
 # Run migrations
 echo "Running database migrations..."
@@ -28,7 +29,7 @@ else:
 
 # Load sample data if database is empty
 echo "Loading sample data..."
-python manage.py loaddata data.yml
+python manage.py loaddata data.yaml
 
 echo "Starting server..."
 exec "$@"

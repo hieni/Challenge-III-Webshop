@@ -4,10 +4,10 @@
     first_name: "Tim"
     last_name: "Lietzowmann"
     email: "tim@example.com"
-    password: "pbkdf2_sha256$fakehash"
-    strasse: "Hauptstraße 1"
-    ort: "Berlin"
-    plz: "10115"
+    password_hash: "pbkdf2_sha256$fakehash"
+    street: "Hauptstraße 1"
+    city: "Berlin"
+    postal_code: "10115"
 
 - model: shop.Customer
   pk: 2
@@ -15,10 +15,10 @@
     first_name: "Lykka"
     last_name: "Brüggenmann"
     email: "lykka@example.com"
-    password: "pbkdf2_sha256$fakehash2"
-    strasse: "Marktweg 22"
-    ort: "Köln"
-    plz: "50667"
+    password_hash: "pbkdf2_sha256$fakehash2"
+    street: "Marktweg 22"
+    city: "Köln"
+    postal_code: "50667"
 
 
 # Kategorien

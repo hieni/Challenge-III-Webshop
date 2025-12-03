@@ -4,7 +4,7 @@
     first_name: "Tim"
     last_name: "Lietzowmann"
     email: "tim@example.com"
-    password_hash: "pbkdf2_sha256$fakehash"
+    password_hash: "pbkdf2_sha256$1000000$lHta2r3muEMBJjGjHHv2KV$yA37dShV+azP1JVIwSjOirX40Sv51aQV+olHuER9EMY="
     street: "Hauptstraße 1"
     city: "Berlin"
     postal_code: "10115"
@@ -15,11 +15,10 @@
     first_name: "Lykka"
     last_name: "Brüggenmann"
     email: "lykka@example.com"
-    password_hash: "pbkdf2_sha256$fakehash2"
+    password_hash: "pbkdf2_sha256$1000000$lHta2r3muEMBJjGjHHv2KV$yA37dShV+azP1JVIwSjOirX40Sv51aQV+olHuER9EMY="
     street: "Marktweg 22"
     city: "Köln"
     postal_code: "50667"
-
 
 # Kategorien
 - model: shop.Category

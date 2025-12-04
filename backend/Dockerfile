@@ -31,11 +31,19 @@ RUN useradd -m -r appuser && \
 COPY --from=builder /usr/local/lib/python3.13/site-packages/ /usr/local/lib/python3.13/site-packages/
 COPY --from=builder /usr/local/bin/ /usr/local/bin/
 
+# Install netcat for database health check
+USER root
+RUN apt-get update && apt-get install -y netcat-traditional && rm -rf /var/lib/apt/lists/*
+
 # Set the working directory
 WORKDIR /app
 
 # Copy application code
 COPY --chown=appuser:appuser . .
+
+# Copy entrypoint script
+COPY --chown=appuser:appuser entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
 
 # Set environment variables to optimize Python
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -47,5 +55,8 @@ USER appuser
 # Expose the application port
 EXPOSE 8000 
 
-# Start the application using Gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "3", "my_docker_django_app.wsgi:application"]
+# Use entrypoint script
+ENTRYPOINT ["/app/entrypoint.sh"]
+
+# Start the application
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

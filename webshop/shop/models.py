@@ -11,10 +11,10 @@ class Customer(models.Model):
     postal_code = models.CharField(max_length=10)
     
     def set_password(self, raw_password):
-        self.password = make_password(raw_password)
+        self.password_hash = make_password(raw_password)
 
     def check_password(self, raw_password):
-        return check_password(raw_password, self.password)
+        return check_password(raw_password, self.password_hash)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"

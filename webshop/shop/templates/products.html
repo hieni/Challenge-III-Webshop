@@ -10,22 +10,40 @@
     <div class="col-md-4 mb-4">
       <div class="card h-100">
 
-        {% if product.image %}
-          <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
-        {% else %}
-          <img src="https://via.placeholder.com/400x300?text=Kein+Bild" class="card-img-top">
-        {% endif %}
+        <a href="{% url 'product_detail' product.id %}" style="text-decoration:none; color:inherit;">
 
-        <div class="card-body">
-          <h5 class="card-title">{{ product.name }}</h5>
-          <p class="card-text">{{ product.description|truncatechars:80 }}</p>
-          <p class="font-weight-bold">{{ product.price }} €</p>
-        </div>
+          {% if product.image %}
+            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+          {% else %}
+            <img src="https://via.placeholder.com/400x300?text=Kein+Bild" class="card-img-top">
+          {% endif %}
+          
+          <div class="card-body">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <p class="card-text">{{ product.description|truncatechars:80 }}</p>
+
+            {% if product.stock > 0 %}
+                <p class="font-weight-bold text-success">{{ product.price }} €</p>
+            {% if product.stock < 5 and product.stock > 0 %}
+                <span class="badge bg-warning text-dark">Nur noch {{ product.stock }} Stück auf Lager!</span>
+            {% endif %}
+                
+            {% else %}
+                <p class="font-weight-bold text-danger">Ausverkauft</p>
+            {% endif %}
+          </div>
+          
+        </a>
+
         <div class="card-footer">
-          <form action="{% url 'add_to_cart' product.id %}" method="POST">
-            {% csrf_token %}
-            <button class="btn btn-primary w-100">In den Warenkorb</button>
-          </form>
+          {% if product.stock > 0 %}
+            <form action="{% url 'add_to_cart' product.id %}" method="POST">
+              {% csrf_token %}
+              <button class="btn btn-primary w-100">In den Warenkorb</button>
+            </form>
+          {% else %}
+            <button class="btn btn-secondary w-100" disabled>Ausverkauft</button>
+          {% endif %}
         </div>
       </div>
     </div>

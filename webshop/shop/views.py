@@ -1,13 +1,55 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from .models import Product, Customer, Cart, CartItem
+from django.db.models import Q
+from .models import Product, Customer, Cart, CartItem, Category
 
 def home(request):
     return render(request, "home.html")
 
 def product_list(request):
     products = Product.objects.all()
-    return render(request, "products.html", {"products": products})
+    categories = Category.objects.all()
+    
+    # Filter nach Kategorie
+    category_id = request.GET.get('category')
+    if category_id:
+        products = products.filter(category_id=category_id)
+    
+    # Filter nach Preis
+    min_price = request.GET.get('min_price')
+    max_price = request.GET.get('max_price')
+    if min_price:
+        products = products.filter(price__gte=min_price)
+    if max_price:
+        products = products.filter(price__lte=max_price)
+    
+    # Suche nach Name oder Beschreibung
+    search_query = request.GET.get('search')
+    if search_query:
+        products = products.filter(
+            Q(name__icontains=search_query) | 
+            Q(description__icontains=search_query)
+        )
+    
+    # Sortierung
+    sort_by = request.GET.get('sort', 'name')
+    if sort_by == 'price_asc':
+        products = products.order_by('price')
+    elif sort_by == 'price_desc':
+        products = products.order_by('-price')
+    elif sort_by == 'name':
+        products = products.order_by('name')
+    
+    context = {
+        "products": products,
+        "categories": categories,
+        "selected_category": category_id,
+        "min_price": min_price,
+        "max_price": max_price,
+        "search_query": search_query,
+        "sort_by": sort_by,
+    }
+    return render(request, "products.html", context)
 
 def login_view(request):
     if request.method == "POST":
@@ -22,6 +64,7 @@ def login_view(request):
         
         if customer.check_password(password):
             request.session["customer_id"] = customer.id
+            request.session["customer_name"] = customer.first_name
             messages.success(request, f"Willkommen zurück, {customer.first_name}!")
             return redirect("product_list")
         else:

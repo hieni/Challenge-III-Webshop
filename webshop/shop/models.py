@@ -5,10 +5,10 @@ class Customer(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField(unique=True)
-    password = models.CharField(max_length=128)
-    strasse = models.CharField(max_length=100)
-    ort = models.CharField(max_length=50)
-    plz = models.CharField(max_length=10)
+    password_hash = models.CharField(max_length=128)
+    street = models.CharField(max_length=100)
+    city = models.CharField(max_length=50)
+    postal_code = models.CharField(max_length=10)
     
     def set_password(self, raw_password):
         self.password = make_password(raw_password)
@@ -25,22 +25,22 @@ class Category(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
-    price = models.FloatField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.IntegerField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     image = models.ImageField(upload_to="products/", null=True, blank=True)
 
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    order_date = models.DateField(auto_now_add=True)
+    order_date = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=50)
-    total_amount = models.FloatField()
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField()
-    price_per_unit = models.FloatField()
+    price_per_unit = models.DecimalField(max_digits=10, decimal_places=2)
 
 class Cart(models.Model):
     customer = models.OneToOneField(Customer, on_delete=models.CASCADE)
@@ -50,3 +50,12 @@ class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField()
+
+class Wishlist(models.Model):
+    customer = models.OneToOneField(Customer, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
+
+class WishlistItem(models.Model):
+    wishlist = models.ForeignKey(Wishlist, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)

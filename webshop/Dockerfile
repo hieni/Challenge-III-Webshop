@@ -34,6 +34,13 @@ COPY --from=builder /usr/local/bin/ /usr/local/bin/
 # Set the working directory
 WORKDIR /app
 
+# Install PostgreSQL client for healthcheck
+RUN apt-get update && apt-get install -y postgresql-client && rm -rf /var/lib/apt/lists/*
+
+# Copy entrypoint script
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
 # Copy application code
 COPY --chown=appuser:appuser . .
 
@@ -41,16 +48,11 @@ COPY --chown=appuser:appuser . .
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1 
 
+# Switch to non-root user
+USER appuser
+
 # Expose the application port
 EXPOSE 8000 
 
-# Copy entrypoint script
-COPY init.sh /app/init.sh
-RUN chmod +x /app/init.sh
-USER appuser
-
-# Set as entrypoint
-ENTRYPOINT ["/app/init.sh"]
-
-# Default CMD (wird von init.sh via exec "$@" gestartet)
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "3", "my_docker_django_app.wsgi:application"]
+# Use entrypoint
+ENTRYPOINT ["docker-entrypoint.sh"]

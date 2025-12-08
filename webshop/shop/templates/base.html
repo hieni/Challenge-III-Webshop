@@ -26,33 +26,23 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav mr-auto flex-row">
+          <!-- Linke Nav-Items -->
+          <ul class="navbar-nav mr-auto">
             {% if request.session.customer_id %}
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-              {% if request.session.customer_id %}
-                <li class="nav-item">
-                  <a class="nav-link text-info" href="{% url 'wishlist' %}">Wunschliste</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link text-dark" href="{% url 'orders_list' %}">Meine Bestellungen</a>
-                </li>
-              {% else %}
-                <li class="nav-item">
-                  <a class="nav-link text-info" href="{% url 'login' %}">Login/Registrieren</a>
-                </li>
-              {% endif %}
-            </ul>
-
-            <!-- Rechte Nav-Items: Warenkorb -->
-            {% if request.session.customer_id %}
-            <ul class="navbar-nav ml-auto">
-
               <li class="nav-item">
-                <span class="nav-link">Hi, {{ request.session.customer_name }}</span>
+                <a class="nav-link" href="{% url 'wishlist' %}">Wunschliste</a>
               </li>
               <li class="nav-item">
-                <span class="nav-separator">|</span>
+                <a class="nav-link" href="{% url 'orders_list' %}">Meine Bestellungen</a>
+              </li>
+            {% endif %}
+          </ul>
+
+          <!-- Rechte Nav-Items -->
+          <ul class="navbar-nav ml-auto">
+            {% if request.session.customer_id %}
+              <li class="nav-item">
+                <span class="nav-link">Hi, {{ request.session.customer_name }}</span>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'logout' %}">Logout</a>
@@ -61,10 +51,6 @@
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'login' %}">Login</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link text-danger" href="{% url 'logout' %}">Logout</a>
-              </li>
-            </ul>
             {% endif %}
           </ul>
 

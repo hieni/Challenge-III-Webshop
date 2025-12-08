@@ -37,36 +37,8 @@
                 <li class="nav-item">
                   <a class="nav-link text-dark" href="{% url 'orders_list' %}">Meine Bestellungen</a>
                 </li>
-              {% else %}
-                <li class="nav-item">
-                  <a class="nav-link text-info" href="{% url 'login' %}">Login/Registrieren</a>
-                </li>
               {% endif %}
             </ul>
-
-            <!-- Rechte Nav-Items: Warenkorb -->
-            {% if request.session.customer_id %}
-            <ul class="navbar-nav ml-auto">
-
-              <li class="nav-item">
-                <span class="nav-link">Hi, {{ request.session.customer_name }}</span>
-              </li>
-              <li class="nav-item">
-                <span class="nav-separator">|</span>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-              </li>
-            {% else %}
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'login' %}">Login</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link text-danger" href="{% url 'logout' %}">Logout</a>
-              </li>
-            </ul>
-            {% endif %}
-          </ul>
 
           <!-- Rechte Nav-Items: Warenkorb -->
           {% if request.session.customer_id %}
@@ -80,6 +52,13 @@
                   {% endif %}
                 {% endwith %}
               </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-danger" href="{% url 'logout' %}">Logout</a>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link text-info" href="{% url 'login' %}">Login/Registrieren</a>
             </li>
           </ul>
           {% endif %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Meine Bestellungen{% endblock %}
+
+{% block content %}
+<h1 class="my-4">Meine Bestellungen</h1>
+
+{% if orders %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Bestellnummer</th>
+            <th>Datum</th>
+            <th>Status</th>
+            <th>Gesamtbetrag</th>
+            <th>Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+        <tr>
+            <td>#{{ order.id }}</td>
+            <td>{{ order.order_date|date:"d.m.Y H:i" }}</td>
+            <td>{{ order.status }}</td>
+            <td>{{ order.total_amount }} €</td>
+            <td>
+                <a href="{% url 'order_detail' order.id %}" class="btn btn-primary btn-sm">Ansehen</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>Du hast noch keine Bestellungen.</p>
+{% endif %}
+
+{% endblock %}

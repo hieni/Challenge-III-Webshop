@@ -3,7 +3,12 @@ from django.contrib import messages
 from .models import Wishlist, WishlistItem, Customer
 
 def wishlist_view(request):
-    customer = Customer.objects.get(id=request.session["customer_id"])
+    customer_id = request.session.get("customer_id")
+    if not customer_id:
+        messages.error(request, "Bitte logge dich ein, um deine Wunschliste zu sehen.")
+        return redirect("login")
+    
+    customer = Customer.objects.get(id=customer_id)
     wishlist, _ = Wishlist.objects.get_or_create(customer=customer)
     items = WishlistItem.objects.filter(wishlist=wishlist)
     return render(request, "wishlist.html", {"items": items})

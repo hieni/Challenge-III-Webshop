@@ -53,6 +53,7 @@ def login_view(request):
         
         if customer.check_password(password):
             request.session["customer_id"] = customer.id
+            request.session["customer_name"] = customer.first_name
             messages.success(request, f"Willkommen zurück, {customer.first_name}!")
             return redirect("product_list")
         else:

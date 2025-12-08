@@ -72,12 +72,13 @@ def add_to_cart(request, product_id):
         defaults={"quantity": 1}
     )
     
-    if not item_created and not cart_item.quantity >= cart_item.product.stock:
-        cart_item.quantity += 1
-        cart_item.save()
-    else: 
-        messages.error(request, f"Nicht genug Bestand für {cart_item.product.name}.")
-        return redirect("product_list")
+    if not item_created:
+        if cart_item.quantity < cart_item.product.stock:
+            cart_item.quantity += 1
+            cart_item.save()
+        else:
+            messages.error(request, f"Nicht genug Bestand für {cart_item.product.name}.")
+            return redirect("product_list")
 
     total_items = sum(item.quantity for item in CartItem.objects.filter(cart=cart))
     request.session['cart_items_count'] = total_items

@@ -1,26 +1,41 @@
 from django.db import models
 from django.contrib.auth.hashers import make_password, check_password
 
+
 class Customer(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField(unique=True)
     password_hash = models.CharField(max_length=128)
-    street = models.CharField(max_length=100)
-    city = models.CharField(max_length=50)
-    postal_code = models.CharField(max_length=10)
-    
+    default_billing_address = models.ForeignKey(
+        "Address",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="billing_customers",
+    )
+    default_shipping_address = models.ForeignKey(
+        "Address",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="shipping_customers",
+    )
+
     def set_password(self, raw_password):
-        self.password = make_password(raw_password)
+        self.password_hash = make_password(raw_password)
 
     def check_password(self, raw_password):
-        return check_password(raw_password, self.password)
+        return check_password(raw_password, self.password_hash)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
 class Category(models.Model):
     category_name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.category_name
 
 class Product(models.Model):
     name = models.CharField(max_length=100)
@@ -30,11 +45,30 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     image = models.ImageField(upload_to="products/", null=True, blank=True)
 
+    def __str__(self):
+        return self.name
+
 class Order(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="orders")
+    billing_address = models.ForeignKey(
+    "Address",
+    null=False,
+    blank=False,
+    on_delete=models.PROTECT,
+    related_name="billing_orders",
+    )
+    shipment_address = models.ForeignKey(
+    "Address",
+    null=False,
+    blank=False,
+    on_delete=models.PROTECT,
+    related_name="shipment_orders",
+    )
     order_date = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=50)
-    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return f"Order {self.id} - {self.status}"
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
@@ -42,20 +76,73 @@ class OrderItem(models.Model):
     quantity = models.IntegerField()
     price_per_unit = models.DecimalField(max_digits=10, decimal_places=2)
 
+    def __str__(self):
+        return f"{self.quantity} x {self.product.name} (Order {self.order.id})"
+
 class Cart(models.Model):
-    customer = models.OneToOneField(Customer, on_delete=models.CASCADE)
+    customer = models.OneToOneField(Customer, on_delete=models.CASCADE, related_name="cart")
     last_updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Cart {self.id} for {self.customer}"
 
 class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField()
 
+    def __str__(self):
+        return f"{self.quantity} x {self.product.name} in cart {self.cart.id}"
+
 class Wishlist(models.Model):
-    customer = models.OneToOneField(Customer, on_delete=models.CASCADE)
+    customer = models.OneToOneField(Customer, on_delete=models.CASCADE, related_name="wishlist")
     created_at = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Wishlist {self.id} for {self.customer}"
 
 class WishlistItem(models.Model):
     wishlist = models.ForeignKey(Wishlist, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.product.name} in wishlist {self.wishlist.id}"
+
+
+class Address(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="addresses")
+    street = models.CharField(max_length=100)
+    city = models.CharField(max_length=50)
+    country = models.CharField(max_length=50)
+    postal_code = models.CharField(max_length=20)
+
+    def __str__(self):
+        return f"{self.street}, {self.city}, {self.country} ({self.postal_code})"
+
+
+class Payment(models.Model):
+    PAYMENT_METHOD_CHOICES = [
+    ("paypal", "PayPal"),
+    ("invoice", "Invoice"), 
+    ]
+    order = models.OneToOneField(Order, on_delete=models.CASCADE, related_name="payment")
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_date = models.DateTimeField(auto_now_add=True)
+    payment_method = models.CharField(max_length=32, choices=PAYMENT_METHOD_CHOICES)
+    status = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"Payment {self.id} for Order {self.order.id} - {self.status}"
+
+
+class Shipment(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="shipments")
+    shipped_date = models.DateTimeField(null=True, blank=True)
+    delivery_date = models.DateTimeField(null=True, blank=True)
+    carrier = models.CharField(max_length=100, blank=True)
+    tracking_number = models.CharField(max_length=200, blank=True)
+    status = models.CharField(max_length=50, blank=True)
+
+    def __str__(self):
+        return f"Shipment {self.id} for Order {self.order.id} - {self.status}"

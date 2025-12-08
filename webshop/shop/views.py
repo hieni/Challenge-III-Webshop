@@ -72,7 +72,7 @@ def add_to_cart(request, product_id):
         defaults={"quantity": 1}
     )
     
-    if not item_created and not cart_item.quantity >= cart_item.product.stock:
+    if not cart_item.quantity >= cart_item.product.stock:
         cart_item.quantity += 1
         cart_item.save()
     else: 

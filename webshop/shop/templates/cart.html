@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Warenkorb{% endblock %}
+
+{% block content %}
+<h1 class="my-4">Dein Warenkorb</h1>
+
+{% if cart_items %}
+<table class="table table-bordered">
+    <thead class="thead-light">
+        <tr>
+            <th>Produkt</th>
+            <th>Preis</th>
+            <th>Menge</th>
+            <th>Summe</th>
+            <th>Aktion</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in cart_items %}
+        <tr>
+            <td>{{ item.product.name }}</td>
+            <td>{{ item.product.price }} €</td>
+            <td>
+                <div class="btn-group">
+                    <a href="{% url 'cart_decrease' item.id %}" class="btn btn-outline-secondary btn-sm">–</a>
+                    <span class="btn btn-light btn-sm">{{ item.quantity }}</span>
+                    <a href="{% url 'cart_increase' item.id %}" class="btn btn-outline-secondary btn-sm">+</a>
+                </div>
+            </td>
+            <td>{{ item.total_price }} €</td>
+            <td>
+                <a href="{% url 'cart_remove' item.id %}" class="btn btn-danger btn-sm">Entfernen</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h4 class="mt-4">Gesamt: <strong>{{ total_price }} €</strong></h4>
+
+<a href="{% url 'product_list' %}" class="btn btn-primary">Weiter einkaufen</a>
+<a href="{% url 'checkout' %}" class="btn btn-success">Bestellung abschließen</a>
+{% else %}
+<p>Dein Warenkorb ist leer.</p>
+<a href="{% url 'product_list' %}" class="btn btn-primary">Produkte ansehen</a>
+
+{% endif %}
+
+{% endblock %}

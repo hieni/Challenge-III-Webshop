@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Bestellung #{{ order.id }}{% endblock %}
+
+{% block content %}
+<h1 class="my-4">Bestellung #{{ order.id }}</h1>
+
+<p><strong>Datum:</strong> {{ order.order_date|date:"d.m.Y H:i" }}</p>
+<p><strong>Status:</strong> {{ order.status }}</p>
+<p><strong>Gesamtbetrag:</strong> {{ order.total_amount }} €</p>
+
+<h3 class="mt-4">Artikel</h3>
+
+<table class="table table-bordered mt-3">
+    <thead>
+        <tr>
+            <th>Produkt</th>
+            <th>Menge</th>
+            <th>Preis</th>
+            <th>Summe</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr>
+            <td>{{ item.product.name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.price_per_unit }} €</td>
+            <td>{{ item.price_per_unit|floatformat:2|add:"0"|floatformat:2 }} €</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{% url 'orders_list' %}" class="btn btn-secondary mt-3">Zurück zu den Bestellungen</a>
+
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block title %}Checkout{% endblock %}
+
+{% block content %}
+<h1 class="my-4">Bestellung abschließen</h1>
+
+{% if cart_items %}
+<form method="POST">
+    {% csrf_token %}
+
+    <h4>Rechnungsadresse</h4>
+
+    <div class="form-check mb-3">
+        <input class="form-check-input" type="checkbox" name="use_existing_billing" id="use_existing_billing" checked>
+        <label class="form-check-label" for="use_existing_billing">
+            Aktuelle Rechnungsadresse verwenden: <strong>{{ customer.default_billing_address.street }}, {{ customer.default_billing_address.postal_code }} {{ customer.default_billing_address.city }}</strong>
+        </label>
+    </div>
+
+    <div id="billing_form" style="display: none;">
+        <div class="form-group mb-2">
+            <label>Straße & Hausnummer</label>
+            <input type="text" class="form-control" name="billing_street">
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group mb-3">
+                    <label>PLZ</label>
+                    <input type="text" class="form-control" name="billing_postal_code" required>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="form-group mb-3">
+                    <label>Stadt</label>
+                    <input type="text" class="form-control" name="billing_city" required>
+                </div>
+            </div>
+        </div>
+        <div class="form-group mb-2">
+            <label>Land</label>
+            <input type="text" class="form-control" name="billing_country">
+        </div>
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" name="set_default_billing" id="set_default_billing">
+            <label class="form-check-label" for="set_default_billing">Als Standard-Rechnungsadresse speichern</label>
+        </div>
+    </div>
+
+    <div class="form-check mb-3">
+        <input class="form-check-input" type="checkbox" name="shipping_same_as_billing" id="shipping_same_as_billing" checked>
+        <label class="form-check-label" for="shipping_same_as_billing">
+            Lieferadresse ist gleich Rechnungsadresse
+        </label>
+    </div>
+
+    <div id="shipping_form" style="display: none;">
+        <h4>Lieferadresse</h4>
+        <div class="form-group mb-2">
+            <label>Straße & Hausnummer</label>
+            <input type="text" class="form-control" name="shipping_street">
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group mb-3">
+                    <label>PLZ</label>
+                    <input type="text" class="form-control" name="shipping_postal_code" required>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="form-group mb-3">
+                    <label>Stadt</label>
+                    <input type="text" class="form-control" name="shipping_country" required>
+                </div>
+            </div>
+        </div>
+        <div class="form-group mb-2">
+            <label>Land</label>
+            <input type="text" class="form-control" name="shipping_country">
+        </div>
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" name="set_default_shipping" id="set_default_shipping">
+            <label class="form-check-label" for="set_default_shipping">Als Standard-Lieferadresse speichern</label>
+        </div>
+    </div>
+
+    <a href="{% url 'checkout' %}" class="btn btn-success">Bestellung abschließen</a>
+</form>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const billingCheckbox = document.getElementById("use_existing_billing");
+    const billingForm = document.getElementById("billing_form");
+    billingCheckbox.addEventListener("change", () => billingForm.style.display = billingCheckbox.checked ? "none" : "block");
+
+    const shippingCheckbox = document.getElementById("shipping_same_as_billing");
+    const shippingForm = document.getElementById("shipping_form");
+    shippingCheckbox.addEventListener("change", () => shippingForm.style.display = shippingCheckbox.checked ? "none" : "block");
+});
+</script>
+
+{% else %}
+<p>Dein Warenkorb ist leer.</p>
+<a href="{% url 'product_list' %}" class="btn btn-primary">Produkte ansehen</a>
+{% endif %}
+{% endblock %}

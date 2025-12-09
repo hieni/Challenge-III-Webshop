@@ -39,7 +39,7 @@
 <h4 class="mt-4 mb-4">Gesamt: <strong>{{ total_price }} €</strong></h4>
 
 <a href="{% url 'product_list' %}" class="btn btn-primary">Weiter einkaufen</a>
-<a href="{% url 'checkout' %}" class="btn btn-success">Bestellung abschließen</a>
+<a href="{% url 'checkout_page' %}" class="btn btn-success">Bestellung abschließen</a>
 {% else %}
 <p>Dein Warenkorb ist leer.</p>
 <a href="{% url 'product_list' %}" class="btn btn-primary">Produkte ansehen</a>

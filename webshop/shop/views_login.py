@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .models import Customer
+from .models import Customer, Address
 from django.db import IntegrityError
 
 def register_view(request):
@@ -11,8 +11,10 @@ def register_view(request):
         street = request.POST.get("street")
         city = request.POST.get("city")
         postal_code = request.POST.get("postal_code")
+        country = request.POST.get("country")  
         password1 = request.POST.get("password1")
         password2 = request.POST.get("password2")
+        same_address = request.POST.get("same_address")  # Checkbox
 
         if password1 != password2:
             messages.error(request, "Die Passwörter stimmen nicht überein.")
@@ -22,17 +24,33 @@ def register_view(request):
             messages.error(request, "Diese E-Mail wird bereits verwendet.")
             return redirect("register")
 
+        # Customer erstellen
         customer = Customer(
             first_name=first_name,
             last_name=last_name,
             email=email,
-            street=street,
-            city=city,
-            postal_code=postal_code,
         )
         customer.set_password(password1)
         customer.save()
 
+        # Adresse erstellen
+        address = Address.objects.create(
+            customer=customer,
+            street=street,
+            city=city,
+            postal_code=postal_code,
+            country=country
+        )
+
+        # Optional: Standardadresse direkt setzen
+        customer.default_shipping_address = address
+        
+        if same_address:
+            customer.default_billing_address = address
+            
+        customer.save()
+
+        # Session setzen
         request.session["customer_id"] = customer.id
 
         messages.success(request, f"Willkommen, {customer.first_name}! Dein Account wurde erstellt.")

@@ -88,15 +88,15 @@ def checkout(request):
     cart = Cart.objects.get(customer=customer)
     cart_items = CartItem.objects.filter(cart=cart)
 
-    if not cart_items:
-        messages.error(request, "Dein Warenkorb ist leer.")
-        return redirect("cart")
-
-    # Prüfen Lagerbestand
+    # Prüfen ob in Stock
     for item in cart_items:
         if item.quantity > item.product.stock:
             messages.error(request, f"Nicht genug Bestand für {item.product.name}.")
             return redirect("cart")
+
+    if not cart_items:
+        messages.error(request, "Dein Warenkorb ist leer.")
+        return redirect("cart")
 
     if request.method == "POST":
         use_existing_billing = request.POST.get("use_existing_billing") == "on"
@@ -113,7 +113,7 @@ def checkout(request):
                 street=request.POST.get("billing_street"),
                 city=request.POST.get("billing_city"),
                 postal_code=request.POST.get("billing_postal_code"),
-                country="Deutschland"  # optional anpassen
+                country = request.POST.get("billing_country")  
             )
             if set_default_billing:
                 customer.default_billing_address = billing_address
@@ -128,7 +128,7 @@ def checkout(request):
                 street=request.POST.get("shipping_street"),
                 city=request.POST.get("shipping_city"),
                 postal_code=request.POST.get("shipping_postal_code"),
-                country="Deutschland"
+                country = request.POST.get("shipping_country")
             )
             if set_default_shipping:
                 customer.default_shipping_address = shipment_address
@@ -158,3 +158,8 @@ def checkout(request):
         
         messages.success(request, "Bestellung erfolgreich!")
         return redirect("order_detail", order_id=order.id)
+    
+    return render(request, "checkout.html", {
+    "customer": customer,
+    "cart_items": cart_items,
+    })

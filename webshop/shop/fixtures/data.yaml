@@ -5,6 +5,7 @@
     last_name: "Lietzowmann"
     email: "tim@example.com"
     password_hash: "pbkdf2_sha256$1000000$E8R8fTiHP8OAvk72TfwA77$sSmf6SyQkfRkthEfMWfVNhGxn8nYRCNnCABsB1tYmXk="
+    default_billing_address: 1
 
 - model: shop.Customer
   pk: 2
@@ -13,6 +14,7 @@
     last_name: "Brüggenmann"
     email: "lykka@example.com"
     password_hash: "pbkdf2_sha256$1000000$E8R8fTiHP8OAvk72TfwA77$sSmf6SyQkfRkthEfMWfVNhGxn8nYRCNnCABsB1tYmXk="
+    default_billing_address: 2
 
 # Adressen
 - model: shop.Address

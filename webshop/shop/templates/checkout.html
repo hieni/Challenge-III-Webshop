@@ -71,7 +71,7 @@
             <div class="col-md-8">
                 <div class="form-group mb-3">
                     <label>Stadt</label>
-                    <input type="text" class="form-control" name="shipping_country" required>
+                    <input type="text" class="form-control" name="shipping_city" required>
                 </div>
             </div>
         </div>
@@ -84,20 +84,42 @@
             <label class="form-check-label" for="set_default_shipping">Als Standard-Lieferadresse speichern</label>
         </div>
     </div>
-
+    <button class="btn btn-success w-100">Bestellung abschließen</button>
+    <!--
     <a href="{% url 'checkout' %}" class="btn btn-success">Bestellung abschließen</a>
+    -->
 </form>
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const billingCheckbox = document.getElementById("use_existing_billing");
-    const billingForm = document.getElementById("billing_form");
-    billingCheckbox.addEventListener("change", () => billingForm.style.display = billingCheckbox.checked ? "none" : "block");
 
-    const shippingCheckbox = document.getElementById("shipping_same_as_billing");
-    const shippingForm = document.getElementById("shipping_form");
-    shippingCheckbox.addEventListener("change", () => shippingForm.style.display = shippingCheckbox.checked ? "none" : "block");
+    const billingBox = document.getElementById("use_existing_billing");
+    const billingForm = document.getElementById("billing_form");
+    const billingRequired = billingForm.querySelectorAll("[required]");
+
+    function updateBilling() {
+        const visible = !billingBox.checked;
+        billingForm.style.display = visible ? "block" : "none";
+        billingRequired.forEach(input => input.required = visible);
+    }
+    billingBox.addEventListener("change", updateBilling);
+    updateBilling();
+
+
+    const shipBox = document.getElementById("shipping_same_as_billing");
+    const shipForm = document.getElementById("shipping_form");
+    const shipRequired = shipForm.querySelectorAll("[required]");
+
+    function updateShip() {
+        const visible = !shipBox.checked;
+        shipForm.style.display = visible ? "block" : "none";
+        shipRequired.forEach(input => input.required = visible);
+    }
+    shipBox.addEventListener("change", updateShip);
+    updateShip();
+
 });
+
 </script>
 
 {% else %}

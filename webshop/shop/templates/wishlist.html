@@ -7,17 +7,14 @@
 {% if items %}
 <div class="products-container">
 
-  <!-- Rechte Seite: Produkte -->
   <main class="products-main">
 
-    <!-- Anzahl anzeigen -->
     <div class="mb-4">
       <span class="product-count">
         <i class="fas fa-heart"></i> {{ items|length }} Produkt(e) auf deiner Wunschliste
       </span>
     </div>
 
-    <!-- Produkt-Grid -->
     <div class="products-grid">
       {% for item in items %}
       <div class="product-item">

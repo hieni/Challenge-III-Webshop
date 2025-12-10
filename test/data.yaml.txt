@@ -1,0 +1,246 @@
+- model: shop.Customer
+  pk: 1
+  fields:
+    first_name: "Tim"
+    last_name: "Lietzowmann"
+    email: "tim@example.com"
+    password_hash: "pbkdf2_sha256$1000000$YSW2Tx71nAEwvQMO1CddWu$VAlY2csUERAJk8NI9jnrQN3l4wzxO8QUG8DzbE+r88M="
+
+- model: shop.Customer
+  pk: 2
+  fields:
+    first_name: "Lykka"
+    last_name: "Brüggenmann"
+    email: "lykka@example.com"
+    password_hash: "pbkdf2_sha256$1000000$YSW2Tx71nAEwvQMO1CddWu$VAlY2csUERAJk8NI9jnrQN3l4wzxO8QUG8DzbE+r88M="
+
+# Adressen
+- model: shop.Address
+  pk: 1
+  fields:
+    customer: 1
+    street: "Hauptstraße 1"
+    city: "Berlin"
+    country: "Germany"
+    postal_code: "10115"
+
+- model: shop.Address
+  pk: 2
+  fields:
+    customer: 2
+    street: "Marktweg 22"
+    city: "Köln"
+    country: "Germany"
+    postal_code: "50667"
+
+# Kategorien
+- model: shop.Category
+  pk: 1
+  fields:
+    category_name: "T-Shirts"
+
+- model: shop.Category
+  pk: 2
+  fields:
+    category_name: "Hoodies"
+
+- model: shop.Category
+  pk: 3
+  fields:
+    category_name: "Caps"
+
+- model: shop.Category
+  pk: 4
+  fields:
+    category_name: "Schlüsselanhänger"
+
+# Produkte
+- model: shop.Product
+  pk: 1
+  fields:
+    name: "Logo T-Shirt Schwarz"
+    description: "Bequemes schwarzes T-Shirt mit Frontlogo."
+    price: 24.99
+    stock: 120
+    category: 1
+
+- model: shop.Product
+  pk: 2
+  fields:
+    name: "ITECH x BHH T-Shirt Weiß"
+    description: "Klassisches weißes T-Shirt mit schlichtem ITECH x BHH Logo."
+    price: 24.99
+    stock: 3
+    category: 1
+    image: "products/ITECHxBHH.png"
+
+- model: shop.Product
+  pk: 3
+  fields:
+    name: "Premium Hoodie Schwarz"
+    description: "Hochwertiger Hoodie in schwarz mit Sticklogo."
+    price: 49.99
+    stock: 60
+    category: 2
+
+- model: shop.Product
+  pk: 4
+  fields:
+    name: "Baseball Cap Navy"
+    description: "Stylische Cap in Navy-Blau mit gesticktem Logo."
+    price: 19.99
+    stock: 80
+    category: 3
+
+- model: shop.Product
+  pk: 5
+  fields:
+    name: "Verschlaffke T-Shirt Weiß"
+    description: "Klassisches weißes T-Shirt mit Verschlaffke."
+    price: 24.99
+    stock: 95
+    category: 1
+    image: "products/Verschlaffke.png"
+
+# Bestellungen
+- model: shop.Order
+  pk: 1
+  fields:
+    customer: 1
+    billing_address: 1
+    shipment_address: 1
+    order_date: "2025-01-15"
+    status: "versendet"
+
+- model: shop.Order
+  pk: 2
+  fields:
+    customer: 2
+    billing_address: 2
+    shipment_address: 2
+    order_date: "2025-01-17"
+    status: "in Bearbeitung"
+
+
+# Order Items
+- model: shop.OrderItem
+  pk: 1
+  fields:
+    order: 1
+    product: 1
+    quantity: 1
+    price_per_unit: 24.99
+
+- model: shop.OrderItem
+  pk: 2
+  fields:
+    order: 1
+    product: 3
+    quantity: 1
+    price_per_unit: 49.99
+
+- model: shop.OrderItem
+  pk: 3
+  fields:
+    order: 2
+    product: 3
+    quantity: 1
+    price_per_unit: 49.99
+
+
+# Warenkörbe
+- model: shop.Cart
+  pk: 1
+  fields:
+    customer: 1
+    last_updated: "2025-01-20T12:00:00Z"
+
+- model: shop.Cart
+  pk: 2
+  fields:
+    customer: 2
+    last_updated: "2025-01-20T12:30:00Z"
+
+
+# Cart Items
+- model: shop.CartItem
+  pk: 1
+  fields:
+    cart: 1
+    product: 4
+    quantity: 2
+
+- model: shop.CartItem
+  pk: 2
+  fields:
+    cart: 2
+    product: 2
+    quantity: 1
+
+# Wunschlisten
+- model: shop.Wishlist
+  pk: 1
+  fields:
+    customer: 1
+    created_at: "2025-01-10T10:00:00Z"
+    last_updated: "2025-01-20T12:00:00Z"
+
+- model: shop.Wishlist
+  pk: 2
+  fields:
+    customer: 2
+    created_at: "2025-01-12T14:30:00Z"
+    last_updated: "2025-01-20T15:00:00Z"
+
+# Wishlist Items
+- model: shop.WishlistItem
+  pk: 1
+  fields:
+    wishlist: 1
+    product: 2
+
+- model: shop.WishlistItem
+  pk: 2
+  fields:
+    wishlist: 2
+    product: 1
+
+# Zahlungen
+- model: shop.Payment
+  pk: 1
+  fields:
+    order: 1
+    amount: 74.98
+    payment_date: "2025-01-15T10:30:00Z"
+    payment_method: "paypal"
+    status: "completed"
+
+- model: shop.Payment
+  pk: 2
+  fields:
+    order: 2
+    amount: 49.99
+    payment_date: "2025-01-17T11:00:00Z"
+    payment_method: "invoice"
+    status: "pending"
+
+# Versand
+- model: shop.Shipment
+  pk: 1
+  fields:
+    order: 1
+    shipped_date: "2025-01-16T08:00:00Z"
+    delivery_date: "2025-01-20T15:30:00Z"
+    carrier: "DHL"
+    tracking_number: "1Z999AA10123456784"
+    status: "delivered"
+
+- model: shop.Shipment
+  pk: 2
+  fields:
+    order: 2
+    shipped_date: null
+    delivery_date: null
+    carrier: ""
+    tracking_number: ""
+    status: "pending"

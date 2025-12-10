@@ -24,7 +24,7 @@
     customer: 1
     street: "Hauptstraße 1"
     city: "Berlin"
-    country: "Germany"
+    country: "Deutschland"
     postal_code: "10115"
 
 - model: shop.Address
@@ -33,7 +33,7 @@
     customer: 2
     street: "Marktweg 22"
     city: "Köln"
-    country: "Germany"
+    country: "Deutschland"
     postal_code: "50667"
 
 # Kategorien
@@ -156,7 +156,6 @@
     shipment_address: 1
     order_date: "2025-01-15"
     status: "shipped"
-    total_amount: 74.98
 
 - model: shop.Order
   pk: 2
@@ -166,7 +165,6 @@
     shipment_address: 2
     order_date: "2025-01-17"
     status: "processing"
-    total_amount: 49.99
 
 
 # Order Items
@@ -259,7 +257,6 @@
     payment_date: "2025-01-15T10:30:00Z"
     payment_method: "paypal"
     status: "completed"
-    transaction_id: "PAYPAL-TX-123456789"
 
 - model: shop.Payment
   pk: 2
@@ -269,7 +266,6 @@
     payment_date: "2025-01-17T11:00:00Z"
     payment_method: "invoice"
     status: "pending"
-    transaction_id: ""
 
 # Versand
 - model: shop.Shipment

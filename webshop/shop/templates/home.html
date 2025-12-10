@@ -4,15 +4,16 @@
 {% block title %}ITECH x BHH Shop - Home{% endblock %}
 
 {% block content %}
-<div class="jumbotron text-center mt-5">
-    <h1 class="display-4">Willkommen im ITECH x BHH Shop!</h1>
-    <p class="lead">Entdecke unsere exklusiven Produkte und Merchandise-Artikel.</p>
-    <hr class="my-4">
-    <p>Von T-Shirts über Hoodies bis hin zu Accessoires - hier findest du alles für echte Fans.</p>
-    <a class="btn btn-primary btn-lg" href="{% url 'product_list' %}" role="button">
-        <i class="fas fa-shopping-bag"></i> Zum Shop
+<div class="hero-card text-center mt-5 mb-5">
+    <h1 class="hero-title">Willkommen im ITECH x BHH Shop!</h1>
+    <p class="hero-subtitle">Entdecke unsere exklusiven Produkte und Merchandise-Artikel.</p>
+    <p class="hero-text">Von T-Shirts über Hoodies bis hin zu Accessoires – hier findest du alles für echte Fans.</p>
+
+    <a class="btn-primary btn-lg hero-btn" href="{% url 'product_list' %}">
+        <i class="fas fa-shopping-bag mt-4"></i> Zum Shop
     </a>
 </div>
+
 
 <div class="container my-5">
     <div class="row">

@@ -6,7 +6,9 @@
 
 <p><strong>Datum:</strong> {{ order.order_date|date:"d.m.Y H:i" }}</p>
 <p><strong>Status:</strong> {{ order.status }}</p>
-<p><strong>Gesamtbetrag:</strong> {{ order.get_total|floatformat:2 }} €</p>
+<p><strong>Gesamtbetrag:</strong> {{ order.get_total_amount|floatformat:2 }} €</p>
+<p><strong>Rechnungsadresse:</strong> {{ order.billing_address }} </p>
+<p><strong>Lieferadresse:</strong> {{ order.shipment_address }} </p>
 
 <h3 class="mt-4">Artikel</h3>
 
@@ -31,8 +33,8 @@
     </tbody>
 </table>
 
-<h4 class="mt-4 mb-4">Gesamt: <strong>{{ order.get_total|floatformat:2 }} €</strong></h4>
+<h4 class="mt-4 mb-4">Gesamt: <strong>{{ order.get_total_amount|floatformat:2 }} €</strong></h4>
 
-<a href="{% url 'orders_list' %}" class="btn btn-secondary">Zurück zu den Bestellungen</a>
+<a href="{% url 'orders_list' %}" class="btn btn-secondary mt-4">Zurück zu den Bestellungen</a>
 
 {% endblock %}

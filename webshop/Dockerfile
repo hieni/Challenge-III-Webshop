@@ -44,12 +44,13 @@ ENV PYTHONUNBUFFERED=1
 # Expose the application port
 EXPOSE 8000 
 
-# Copy entrypoint script and fix line endings
+# Copy entrypoint script
 COPY init.sh /app/init.sh
-RUN sed -i 's/\r$//' /app/init.sh && chmod +x /app/init.sh
-
-# Switch to non-root user
+RUN chmod +x /app/init.sh
 USER appuser
 
-# Run init commands and start server
-CMD ["/bin/bash", "/app/init.sh", "python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Set as entrypoint
+ENTRYPOINT ["/app/init.sh"]
+
+# Default CMD (wird von init.sh via exec "$@" gestartet)
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "3", "my_docker_django_app.wsgi:application"]

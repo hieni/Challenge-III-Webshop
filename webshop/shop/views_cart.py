@@ -98,8 +98,8 @@ def checkout(request):
     if request.method == "POST":
         same_as_billing = request.POST.get("same_as_billing") == "on"
 
-        # Rechnungsadresse erstellen
-        billing_address = Address.objects.create(
+        # Rechnungsadresse 
+        billing_address, created = Address.objects.get_or_create(
             customer=customer,
             street=request.POST.get("billing_street"),
             city=request.POST.get("billing_city"),
@@ -111,7 +111,7 @@ def checkout(request):
         if same_as_billing:
             shipment_address = billing_address
         else:
-            shipment_address = Address.objects.create(
+            shipment_address, created = Address.objects.get_or_create(
                 customer=customer,
                 street=request.POST.get("shipping_street"),
                 city=request.POST.get("shipping_city"),
@@ -141,7 +141,7 @@ def checkout(request):
         # Payment und Shipment erstellen
         Payment.objects.create(
             order=order,
-            amount=order.total_amount,
+            amount=order.get_total_amount(),
             payment_method=request.POST.get("payment_method", "invoice"),
             status="pending"
         )

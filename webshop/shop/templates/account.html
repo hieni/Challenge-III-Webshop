@@ -8,11 +8,10 @@
     <div class="row">
         <!-- Persönliche Daten -->
         <div class="col-md-6 mb-4">
-            <div class="card">
-                <div class="card-header bg-primary text-white">
-                    <h4><i class="fas fa-user"></i> Persönliche Daten</h4>
-                </div>
+            <div class="card product-card">
                 <div class="card-body">
+                    <h4 class="card-title mb-4"><i class="fas fa-user"></i> Persönliche Daten</h4>
+
                     <p><strong>Name:</strong> {{ customer.first_name }} {{ customer.last_name }}</p>
                     <p><strong>E-Mail:</strong> {{ customer.email }}</p>
                 </div>
@@ -21,18 +20,17 @@
 
         <!-- Schnellzugriff -->
         <div class="col-md-6 mb-4">
-            <div class="card">
-                <div class="card-header bg-info text-white">
-                    <h4><i class="fas fa-bolt"></i> Schnellzugriff</h4>
-                </div>
+            <div class="card product-card">
                 <div class="card-body">
-                    <a href="{% url 'orders_list' %}" class="btn btn-outline-primary btn-block mb-2">
+                    <h4 class="card-title mb-4"><i class="fas fa-bolt"></i> Schnellzugriffe</h4>
+
+                    <a href="{% url 'orders_list' %}" class="btn btn-primary btn-block mb-2">
                         <i class="fas fa-shopping-bag"></i> Meine Bestellungen
                     </a>
-                    <a href="{% url 'wishlist' %}" class="btn btn-outline-danger btn-block mb-2">
+                    <a href="{% url 'wishlist' %}" class="btn btn-danger btn-block mb-2">
                         <i class="fas fa-heart"></i> Meine Wunschliste
                     </a>
-                    <a href="{% url 'cart' %}" class="btn btn-outline-success btn-block">
+                    <a href="{% url 'cart' %}" class="btn btn-success btn-block">
                         <i class="fas fa-shopping-cart"></i> Warenkorb
                     </a>
                 </div>
@@ -43,11 +41,9 @@
     <div class="row">
         <!-- Standard-Rechnungsadresse -->
         <div class="col-md-6 mb-4">
-            <div class="card">
-                <div class="card-header bg-success text-white">
-                    <h4><i class="fas fa-file-invoice"></i> Rechnungsadresse</h4>
-                </div>
+            <div class="card product-card">
                 <div class="card-body">
+                    <h4 class="card-title mb-4"><i class="fas fa-file-invoice"></i> Rechnungsadresse</h4>
                     {% if customer.default_billing_address %}
                         <p>{{ customer.default_billing_address.street }}</p>
                         <p>{{ customer.default_billing_address.postal_code }} {{ customer.default_billing_address.city }}</p>
@@ -61,11 +57,9 @@
 
         <!-- Standard-Lieferadresse -->
         <div class="col-md-6 mb-4">
-            <div class="card">
-                <div class="card-header bg-warning text-dark">
-                    <h4><i class="fas fa-truck"></i> Lieferadresse</h4>
-                </div>
+            <div class="card product-card">
                 <div class="card-body">
+                    <h4 class="card-title mb-4"><i class="fas fa-truck"></i> Lieferadresse</h4>
                     {% if customer.default_shipping_address %}
                         <p>{{ customer.default_shipping_address.street }}</p>
                         <p>{{ customer.default_shipping_address.postal_code }} {{ customer.default_shipping_address.city }}</p>
@@ -81,25 +75,23 @@
     <!-- Alle Adressen -->
     <div class="row">
         <div class="col-12">
-            <div class="card">
-                <div class="card-header bg-secondary text-white">
-                    <h4><i class="fas fa-address-book"></i> Alle gespeicherten Adressen</h4>
-                </div>
+            <div class="card product-card">
                 <div class="card-body">
+                    <h4 class="card-title mb-4"><i class="fas fa-address-book"></i> Alle gespeicherten Adressen</h4>
                     {% if addresses %}
                         <div class="row">
                             {% for address in addresses %}
                                 <div class="col-md-4 mb-3">
-                                    <div class="card border-primary">
+                                    <div class="card ">
                                         <div class="card-body">
                                             <p><strong>{{ address.street }}</strong></p>
                                             <p>{{ address.postal_code }} {{ address.city }}</p>
                                             <p>{{ address.country }}</p>
                                             {% if address == customer.default_billing_address %}
-                                                <span class="badge badge-success">Standard-Rechnung</span>
+                                                <span class="badge badge-category mb-2">Standard-Rechnung</span>
                                             {% endif %}
                                             {% if address == customer.default_shipping_address %}
-                                                <span class="badge badge-warning">Standard-Versand</span>
+                                                <span class="badge badge-category mb-2">Standard-Versand</span>
                                             {% endif %}
                                         </div>
                                     </div>

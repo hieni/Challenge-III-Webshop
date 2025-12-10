@@ -31,6 +31,8 @@
     </tbody>
 </table>
 
-<a href="{% url 'orders_list' %}" class="btn btn-secondary mt-3">Zurück zu den Bestellungen</a>
+<h4 class="mt-4 mb-4">Gesamt: <strong>{{ order.get_total_amount|floatformat:2 }} €</strong></h4>
+
+<a href="{% url 'orders_list' %}" class="btn btn-secondary">Zurück zu den Bestellungen</a>
 
 {% endblock %}

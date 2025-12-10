@@ -5,9 +5,8 @@
     first_name: "Tim"
     last_name: "Lietzowmann"
     email: "tim@example.com"
-    password_hash: "pbkdf2_sha256$1000000$YSW2Tx71nAEwvQMO1CddWu$VAlY2csUERAJk8NI9jnrQN3l4wzxO8QUG8DzbE+r88M="
-    default_billing_address: null
-    default_shipping_address: null
+    password_hash: "pbkdf2_sha256$1000000$E8R8fTiHP8OAvk72TfwA77$sSmf6SyQkfRkthEfMWfVNhGxn8nYRCNnCABsB1tYmXk="
+    default_billing_address: 1
 
 - model: shop.Customer
   pk: 2
@@ -15,9 +14,8 @@
     first_name: "Lykka"
     last_name: "Brüggenmann"
     email: "lykka@example.com"
-    password_hash: "pbkdf2_sha256$1000000$YSW2Tx71nAEwvQMO1CddWu$VAlY2csUERAJk8NI9jnrQN3l4wzxO8QUG8DzbE+r88M="
-    default_billing_address: null
-    default_shipping_address: null
+    password_hash: "pbkdf2_sha256$1000000$E8R8fTiHP8OAvk72TfwA77$sSmf6SyQkfRkthEfMWfVNhGxn8nYRCNnCABsB1tYmXk="
+    default_billing_address: 2
 
 # Adressen
 - model: shop.Address
@@ -26,8 +24,8 @@
     customer: 1
     street: "Hauptstraße 1"
     city: "Berlin"
-    postal_code: "10115"
     country: "Germany"
+    postal_code: "10115"
 
 - model: shop.Address
   pk: 2
@@ -35,8 +33,8 @@
     customer: 2
     street: "Marktweg 22"
     city: "Köln"
-    postal_code: "50667"
     country: "Germany"
+    postal_code: "50667"
 
 # Kategorien
 - model: shop.Category
@@ -57,7 +55,17 @@
 - model: shop.Category
   pk: 4
   fields:
-    category_name: "Schlüsselanhänger"
+    category_name: "Flaschen"
+
+- model: shop.Category
+  pk: 5
+  fields:
+    category_name: "Notizbücher"
+
+- model: shop.Category
+  pk: 6
+  fields:
+    category_name: "Sticker"
 
 # Produkte
 - model: shop.Product
@@ -82,20 +90,22 @@
 - model: shop.Product
   pk: 3
   fields:
-    name: "Premium Hoodie Schwarz"
-    description: "Hochwertiger Hoodie in schwarz mit Sticklogo."
+    name: "Premium ITECH x BHH Hoodie Weiß"
+    description: "Hochwertiger Hoodie in weiß mit SticITECH x BHH Logoklogo."
     price: 49.99
     stock: 60
     category: 2
+    image: "products/ITECHxBHH Hoodie.png"
 
 - model: shop.Product
   pk: 4
   fields:
-    name: "Baseball Cap Navy"
-    description: "Stylische Cap in Navy-Blau mit gesticktem Logo."
+    name: "Baseball Cap ITECH x BHH Weiß"
+    description: "Stylische Cap in weiß mit gesticktem ITECH x BHH Logo."
     price: 19.99
     stock: 80
     category: 3
+    image: "products/ITECHxBHH Cap.png"
 
 - model: shop.Product
   pk: 5
@@ -106,6 +116,36 @@
     stock: 95
     category: 1
     image: "products/Verschlaffke.png"
+
+- model: shop.Product
+  pk: 6
+  fields:
+    name: "ITECH x BHH Sticker"
+    description: "Hochwertiger Sticker mit ITECH x BHH Logo."
+    price: 0.49
+    stock: 249
+    category: 6
+    image: "products/ITECHxBHH Sticker.png"
+
+- model: shop.Product
+  pk: 7
+  fields:
+    name: "ITECH x BHH Notizbuch A5"
+    description: "Praktisches Notizbuch im A5 Format mit ITECH x BHH Cover."
+    price: 12.99
+    stock: 82
+    category: 5
+    image: "products/ITECHxBHH Notizbuch.png" 
+
+- model: shop.Product
+  pk: 8
+  fields:
+    name: "ITECH x BHH Trinkflasche"
+    description: "Robuste Trinkflasche mit ITECH x BHH Logo."
+    price: 14.99  
+    stock: 25
+    category: 4
+    image: "products/ITECHxBHH Flasche.png"
 
 # Bestellungen
 - model: shop.Order
@@ -195,7 +235,7 @@
   pk: 2
   fields:
     customer: 2
-    last_updated: "2025-01-20T12:00:00Z"
+    last_updated: "2025-01-20T15:00:00Z"
 
 # Wishlist Items
 - model: shop.WishlistItem

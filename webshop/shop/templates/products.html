@@ -80,12 +80,12 @@
     <div class="products-grid">
     {% for product in products %}
       <div class="product-item">
-        <div class="card product-card h-100">
+        <div class="card product-card h-150">
           
           <a href="{% url 'product_detail' product.id %}" style="text-decoration:none; color:inherit;">
           
             {% if product.image %}
-              <img src="{{ product.image.url }}" class="card-img-top product-image" alt="{{ product.name }}">
+              <img src="{{ product.image.url }}" class="card-img-top product-image" style="height: 300px;" alt="{{ product.name }}">
             {% else %}
               <img src="https://via.placeholder.com/400x300?text=Kein+Bild" class="card-img-top product-image" alt="Kein Bild verfügbar">
             {% endif %}
@@ -99,7 +99,7 @@
                 {% if product.stock > 5 %}
                   <span class="stock-badge"><i class="fas fa-box"></i> Lagerbestand: {{ product.stock }}</span>
                 {% else %}
-                  <span class="badge bg-warning text-dark"><i class="fas fa-box"></i>Nur noch {{ product.stock }} Stück auf Lager!</span>
+                  <span class="stock-badge bg-warning "><i class="fas fa-box"></i> Nur noch {{ product.stock }} Stück auf Lager!</span>
                 {% endif %}
 
               {% else %}

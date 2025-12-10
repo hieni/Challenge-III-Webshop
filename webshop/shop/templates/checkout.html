@@ -1,129 +1,127 @@
 {% extends "base.html" %}
-{% block title %}Checkout{% endblock %}
+{% block title %}Kasse{% endblock %}
 
 {% block content %}
-<h1 class="my-4">Bestellung abschließen</h1>
-
-{% if cart_items %}
-<form method="POST">
-    {% csrf_token %}
-
-    <h4>Rechnungsadresse</h4>
-
-    <div class="form-check mb-3">
-        <input class="form-check-input" type="checkbox" name="use_existing_billing" id="use_existing_billing" checked>
-        <label class="form-check-label" for="use_existing_billing">
-            Aktuelle Rechnungsadresse verwenden: <strong>{{ customer.default_billing_address.street }}, {{ customer.default_billing_address.postal_code }} {{ customer.default_billing_address.city }}</strong>
-        </label>
-    </div>
-
-    <div id="billing_form" style="display: none;">
-        <div class="form-group mb-2">
-            <label>Straße & Hausnummer</label>
-            <input type="text" class="form-control" name="billing_street">
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="form-group mb-3">
-                    <label>PLZ</label>
-                    <input type="text" class="form-control" name="billing_postal_code" required>
+<div class="container my-5">
+    <h1 class="mb-4">Bestellung abschließen</h1>
+    
+    <div class="row">
+        <div class="col-md-8">
+            <form method="POST">
+                {% csrf_token %}
+                
+                <!-- Rechnungsadresse -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h4>Rechnungsadresse</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="billing_street">Straße und Hausnummer *</label>
+                            <input type="text" class="form-control" id="billing_street" name="billing_street" required>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="billing_postal_code">PLZ *</label>
+                                    <input type="text" class="form-control" id="billing_postal_code" name="billing_postal_code" required>
                 </div>
             </div>
 
-            <div class="col-md-8">
-                <div class="form-group mb-3">
-                    <label>Stadt</label>
-                    <input type="text" class="form-control" name="billing_city" required>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="billing_city">Stadt *</label>
+                                    <input type="text" class="form-control" id="billing_city" name="billing_city" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="billing_country">Land *</label>
+                            <input type="text" class="form-control" id="billing_country" name="billing_country" value="Germany" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lieferadresse -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h4>Lieferadresse</h4>
+                        <div class="form-check mt-2">
+                            <input type="checkbox" class="form-check-input" id="same_as_billing" name="same_as_billing" checked>
+                            <label class="form-check-label" for="same_as_billing">
+                                Lieferadresse entspricht Rechnungsadresse
+                            </label>
+                        </div>
+                    </div>
+                    <div class="card-body" id="shipping_address_fields" style="display: none;">
+                        <div class="form-group">
+                            <label for="shipping_street">Straße und Hausnummer *</label>
+                            <input type="text" class="form-control" id="shipping_street" name="shipping_street">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="shipping_postal_code">PLZ *</label>
+                                    <input type="text" class="form-control" id="shipping_postal_code" name="shipping_postal_code">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="shipping_city">Stadt *</label>
+                                    <input type="text" class="form-control" id="shipping_city" name="shipping_city">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="shipping_country">Land *</label>
+                            <input type="text" class="form-control" id="shipping_country" name="shipping_country" value="Germany">
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-success btn-lg btn-block">
+                    Jetzt zahlungspflichtig bestellen
+                </button>
+            </form>
+        </div>
+
+        <!-- Bestellübersicht -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Deine Bestellung</h4>
+                </div>
+                <div class="card-body">
+                    {% for item in cart_items %}
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>{{ item.product.name }} ({{ item.quantity }}x)</span>
+                        <span>{{ item.total_price }} €</span>
+                    </div>
+                    {% endfor %}
+                    <hr>
+                    <div class="d-flex justify-content-between">
+                        <strong>Gesamt:</strong>
+                        <strong>{{ total_price }} €</strong>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="form-group mb-2">
-            <label>Land</label>
-            <input type="text" class="form-control" name="billing_country">
-        </div>
-        <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" name="set_default_billing" id="set_default_billing">
-            <label class="form-check-label" for="set_default_billing">Als Standard-Rechnungsadresse speichern</label>
-        </div>
     </div>
-
-    <div class="form-check mb-3">
-        <input class="form-check-input" type="checkbox" name="shipping_same_as_billing" id="shipping_same_as_billing" checked>
-        <label class="form-check-label" for="shipping_same_as_billing">
-            Lieferadresse ist gleich Rechnungsadresse
-        </label>
-    </div>
-
-    <div id="shipping_form" style="display: none;">
-        <h4>Lieferadresse</h4>
-        <div class="form-group mb-2">
-            <label>Straße & Hausnummer</label>
-            <input type="text" class="form-control" name="shipping_street">
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="form-group mb-3">
-                    <label>PLZ</label>
-                    <input type="text" class="form-control" name="shipping_postal_code" required>
-                </div>
-            </div>
-
-            <div class="col-md-8">
-                <div class="form-group mb-3">
-                    <label>Stadt</label>
-                    <input type="text" class="form-control" name="shipping_city" required>
-                </div>
-            </div>
-        </div>
-        <div class="form-group mb-2">
-            <label>Land</label>
-            <input type="text" class="form-control" name="shipping_country">
-        </div>
-        <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" name="set_default_shipping" id="set_default_shipping">
-            <label class="form-check-label" for="set_default_shipping">Als Standard-Lieferadresse speichern</label>
-        </div>
-    </div>
-    <button class="btn btn-success w-100">Bestellung abschließen</button>
-    <!--
-    <a href="{% url 'checkout' %}" class="btn btn-success">Bestellung abschließen</a>
-    -->
-</form>
+</div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-
-    const billingBox = document.getElementById("use_existing_billing");
-    const billingForm = document.getElementById("billing_form");
-    const billingRequired = billingForm.querySelectorAll("[required]");
-
-    function updateBilling() {
-        const visible = !billingBox.checked;
-        billingForm.style.display = visible ? "block" : "none";
-        billingRequired.forEach(input => input.required = visible);
+document.getElementById('same_as_billing').addEventListener('change', function() {
+    const shippingFields = document.getElementById('shipping_address_fields');
+    const shippingInputs = shippingFields.querySelectorAll('input');
+    
+    if (this.checked) {
+        shippingFields.style.display = 'none';
+        shippingInputs.forEach(input => input.required = false);
+    } else {
+        shippingFields.style.display = 'block';
+        shippingInputs.forEach(input => input.required = true);
     }
-    billingBox.addEventListener("change", updateBilling);
-    updateBilling();
-
-
-    const shipBox = document.getElementById("shipping_same_as_billing");
-    const shipForm = document.getElementById("shipping_form");
-    const shipRequired = shipForm.querySelectorAll("[required]");
-
-    function updateShip() {
-        const visible = !shipBox.checked;
-        shipForm.style.display = visible ? "block" : "none";
-        shipRequired.forEach(input => input.required = visible);
-    }
-    shipBox.addEventListener("change", updateShip);
-    updateShip();
-
 });
-
 </script>
 
-{% else %}
-<p>Dein Warenkorb ist leer.</p>
-<a href="{% url 'product_list' %}" class="btn btn-primary">Produkte ansehen</a>
-{% endif %}
 {% endblock %}

@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import Customer, Address
-from django.db import IntegrityError
 
 def register_view(request):
     if request.method == "POST":
@@ -71,6 +70,7 @@ def login_view(request):
         
         if customer.check_password(password):
             request.session["customer_id"] = customer.id
+            request.session["customer_name"] = customer.first_name
             messages.success(request, f"Willkommen zurück, {customer.first_name}!")
             return redirect("product_list")
         else:

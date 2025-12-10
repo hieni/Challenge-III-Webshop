@@ -27,9 +27,22 @@ else:
     print('Superuser already exists');
 "
 
+# Collect static files
+echo "Collecting static files..."
+python manage.py collectstatic --noinput
+
 # Load sample data if database is empty
-echo "Loading sample data..."
-python manage.py loaddata data.yaml
+echo "Checking for sample data..."
+python manage.py shell -c "
+from shop.models import Product;
+if Product.objects.count() == 0:
+    print('Loading sample data...');
+    import subprocess;
+    subprocess.run(['python', 'manage.py', 'loaddata', 'shop/fixtures/data.yaml']);
+    print('Sample data loaded!');
+else:
+    print('Sample data already exists, skipping...');
+"
 
 echo "Starting server..."
 exec "$@"

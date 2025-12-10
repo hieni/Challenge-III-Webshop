@@ -141,19 +141,17 @@ class Order(models.Model):
     )
     billing_address = models.ForeignKey(
         Address,
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
+        on_delete=models.PROTECT,
         related_name="billing_orders",
-        verbose_name="Rechnungsadresse"
+        verbose_name="Rechnungsadresse",
+        help_text="Pflichtfeld: Rechnungsadresse muss angegeben werden"
     )
     shipment_address = models.ForeignKey(
         Address,
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
+        on_delete=models.PROTECT,
         related_name="shipment_orders",
-        verbose_name="Versandadresse"
+        verbose_name="Versandadresse",
+        help_text="Pflichtfeld: Lieferadresse muss angegeben werden"
     )
     order_date = models.DateTimeField(auto_now_add=True, verbose_name="Bestelldatum")
     status = models.CharField(

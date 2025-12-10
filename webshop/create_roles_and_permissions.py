@@ -39,7 +39,7 @@ user = User.objects.get(username="vincent")
 admins.user_set.add(user)
 
 # permissions zuweisen
-from django.contrib.auth.models import Group, Permission
+from django.contrib.auth.models import Group
 admins = Group.objects.get(name="Admins")
 editors = Group.objects.get(name="Editors")
 readers = Group.objects.get(name="Readers")

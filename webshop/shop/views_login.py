@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import Customer, Address
-from django.db import IntegrityError
 
 def register_view(request):
     if request.method == "POST":

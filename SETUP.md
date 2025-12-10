@@ -98,6 +98,9 @@ docker compose logs web --tail=50
 - Username: `admin`
 - Passwort: `1234`
 
+
+
+docker compose exec web python manage.py shell -c "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin', 'admin@example.com', '1234'); print('✓ Admin user created - Username: admin, Password: 1234')"
 ---
 
 ### Option B: Lokale Entwicklung (ohne Docker)

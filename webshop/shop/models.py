@@ -160,20 +160,18 @@ class Order(models.Model):
         default='pending',
         verbose_name="Status"
     )
-    total_amount = models.DecimalField(
-        max_digits=10, 
-        decimal_places=2,
-        validators=[MinValueValidator(Decimal('0.00'))],
-        verbose_name="Gesamtbetrag"
-    )
     
     class Meta:
         ordering = ['-order_date']
         verbose_name = "Bestellung"
         verbose_name_plural = "Bestellungen"
     
+    def get_total(self):
+        """Calculate total order amount from order items."""
+        return sum(item.get_subtotal() for item in self.items.all())
+    
     def __str__(self):
-        return f"Bestellung #{self.id} - {self.customer} (€{self.total_amount})"
+        return f"Bestellung #{self.id} - {self.customer} (€{self.get_total()})"
 
 
 class OrderItem(models.Model):

@@ -123,7 +123,6 @@ def checkout(request):
         order = Order.objects.create(
             customer=customer,
             status="pending",
-            total_amount=Decimal(str(total_price)),
             billing_address=billing_address,
             shipment_address=shipment_address
         )

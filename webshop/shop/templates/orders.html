@@ -18,10 +18,10 @@
     <tbody>
         {% for order in orders %}
         <tr>
-            <td>#{{ order.id }}</td>
+            <td>{{ order.id }}</td>
             <td>{{ order.order_date|date:"d.m.Y H:i" }}</td>
             <td>{{ order.status }}</td>
-            <td>{{ order.get_total_amount|floatformat:2 }} €</td>
+            <td>{{ order.get_total|floatformat:2 }} €</td>
             <td>
                 <a href="{% url 'order_detail' order.id %}" class="btn btn-primary btn-sm">Ansehen</a>
             </td>

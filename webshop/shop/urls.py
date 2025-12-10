@@ -18,5 +18,6 @@ urlpatterns = [
     path("wishlist/", views_wishlist.wishlist_view, name="wishlist"),
     path("wishlist/add/<int:product_id>/", views_wishlist.wishlist_add, name="wishlist_add"),
     path("register/", views_login.register_view, name="register"),
+    path("account/", views_login.account_view, name="account"),
 
 ]

@@ -29,6 +29,9 @@
           <ul class="navbar-nav mr-auto">
             {% if request.session.customer_id %}
               <li class="nav-item">
+                <a class="nav-link" href="{% url 'account' %}"><i class="fas fa-user"></i> Mein Konto</a>
+              </li>
+              <li class="nav-item">
                 <a class="nav-link" href="{% url 'wishlist' %}"><i class="fas fa-heart"></i> Wunschliste</a>
               </li>
               <li class="nav-item">

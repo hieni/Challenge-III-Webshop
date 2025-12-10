@@ -18,26 +18,30 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="billing_street">Straße und Hausnummer *</label>
-                            <input type="text" class="form-control" id="billing_street" name="billing_street" required>
+                            <input type="text" class="form-control" id="billing_street" name="billing_street" 
+                                   value="{% if default_address %}{{ default_address.street }}{% endif %}" required>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="billing_postal_code">PLZ *</label>
-                                    <input type="text" class="form-control" id="billing_postal_code" name="billing_postal_code" required>
+                                    <input type="text" class="form-control" id="billing_postal_code" name="billing_postal_code" 
+                                           value="{% if default_address %}{{ default_address.postal_code }}{% endif %}" required>
                 </div>
             </div>
 
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="billing_city">Stadt *</label>
-                                    <input type="text" class="form-control" id="billing_city" name="billing_city" required>
+                                    <input type="text" class="form-control" id="billing_city" name="billing_city" 
+                                           value="{% if default_address %}{{ default_address.city }}{% endif %}" required>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="billing_country">Land *</label>
-                            <input type="text" class="form-control" id="billing_country" name="billing_country" value="Germany" required>
+                            <input type="text" class="form-control" id="billing_country" name="billing_country" 
+                                   value="{% if default_address %}{{ default_address.country }}{% else %}Germany{% endif %}" required>
                         </div>
                     </div>
                 </div>

@@ -1425,3 +1425,91 @@ Key dependencies (versions should be verified):
 ---
 
 *End of Technical Documentation*
+
+
+
+
+
+Basierend auf den Bewertungskriterien und eurem aktuellen Stand:
+
+✅ Was ihr habt (20/50 Punkte gesichert):
+Scrum-Board & Rollenverteilung (5 Punkte) ✅
+Angebotsvergleich (5 Punkte) ✅
+DB-Schnittstelle vorgestellt (5 Punkte) ✅
+DB-Technologie begründet (5 Punkte) ✅
+⚠️ Was noch fehlt/verbessert werden muss (30/50 Punkte):
+5. Datenmodell entwickelt, dokumentiert und dargestellt (5 Punkte)
+Status: ⚠️ TEILWEISE - Ihr habt das Modell, aber Dokumentation unvollständig
+
+Was ihr habt:
+
+✅ 12 Models in models.py (429 Zeilen)
+✅ Technische Dokumentation gerade erstellt
+Was noch fehlt:
+
+📊 Entity-Relationship-Diagramm (ERD) - visuell!
+📄 Dokumentation sollte für Präsentation aufbereitet werden
+Schnelle Lösung:
+
+Oder online Tool: dbdiagram.io - 15 Minuten Arbeit
+
+6. Realisierung der Anwendung (10 Punkte)
+Status: ⚠️ KRITISCH - 6/10 Punkte gefährdet
+
+Was funktioniert:
+
+✅ Webshop läuft in Docker
+✅ Produktliste, Warenkorb, Checkout
+✅ Login/Register
+✅ Bestellungen, Wishlist
+✅ Session-basierte Authentifizierung
+Kritische Probleme aus der Dokumentation:
+
+Sicherheitslücke: order_detail hat keine Autorisierung
+
+❌ Jeder User kann jede Bestellung sehen!
+Muss vor Präsentation gefixt werden
+Race Condition: Checkout nicht atomar
+
+⚠️ Kann zu Überverkäufen führen
+Sollte gefixt werden
+Keine Tests: 0% Coverage
+
+⚠️ Könnte Punktabzug geben
+Empfehlung:
+
+JETZT sofort fixen: Order Detail Security (10 Minuten)
+Optional: Checkout atomic (30 Minuten)
+Bei Zeit: Basis-Tests schreiben (1-2 Stunden)
+7. Präsentation (15 Punkte)
+Status: ❓ UNKLAR - Größter Punkteblock!
+
+Struktur für 25 Minuten:
+
+Intro (2 min): Projekt-Überblick, Team-Vorstellung
+Scrum-Prozess (3 min): Board zeigen, Sprints, Rollen
+Anforderungsanalyse (2 min): Angebotsvergleich
+Datenmodell (4 min): ERD zeigen, Models erklären
+Technologie-Stack (4 min): Django/PostgreSQL/Docker Begründung
+Live-Demo (7 min): Durchklicken (Register → Produkte → Warenkorb → Checkout → Bestellung)
+Code-Highlights (2 min): Wichtige Views/Models kurz zeigen
+Fazit (1 min): Lessons learned
+Kritische Punkte:
+
+🎯 Jedes Mitglied muss sprechen - Teile aufteilen!
+📊 Visualisierung: ERD, Screenshots, Scrum-Board
+🔴 Roter Faden: Story erzählen, nicht nur Features auflisten
+⏱️ Timing: Proben! 25 Min einhalten
+🎯 Meine Empfehlung für maximale Punkte:
+Sofort (heute, 1-2 Stunden):
+✅ Security-Fix für order_detail (10 min)
+✅ Checkout atomic machen (30 min)
+📊 ERD erstellen (15 min)
+📋 Präsentations-Outline schreiben und Rollen verteilen (30 min)
+Diese Woche:
+🧪 Basis-Tests schreiben (2-3 Stunden)
+🎤 Präsentation 2x durchproben mit Zeitmessung
+Realistisches Ziel:
+Mit Fixes: 45-48/50 Punkte möglich
+Ohne Fixes: 38-42/50 Punkte Risiko
+Soll ich die kritischen Security-Fixes jetzt direkt umsetzen? Das würde eure "Realisierung der Anwendung"-Punkte absichern und dauert nur 15 Minuten.

@@ -161,8 +161,12 @@ def checkout(request):
         return redirect("order_detail", order_id=order.id)
     
     # GET request - show checkout form
+    # Pre-fill with default billing address if exists
+    default_address = customer.default_billing_address
+    
     return render(request, "checkout.html", {
         "customer": customer,
         "cart_items": cart_items,
         "total_price": total_price,
+        "default_address": default_address,
     })

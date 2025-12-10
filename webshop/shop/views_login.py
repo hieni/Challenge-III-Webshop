@@ -84,3 +84,17 @@ def logout_view(request):
     request.session.flush()
     messages.info(request, "Du wurdest ausgeloggt.")
     return redirect("login")
+
+def account_view(request):
+    customer_id = request.session.get("customer_id")
+    if not customer_id:
+        messages.error(request, "Bitte logge dich ein.")
+        return redirect("login")
+    
+    customer = Customer.objects.get(id=customer_id)
+    addresses = Address.objects.filter(customer=customer)
+    
+    return render(request, "account.html", {
+        "customer": customer,
+        "addresses": addresses,
+    })
